@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Session Words</title>
+  </head>
+  <body>
+    <div>
+        <h3>Add a New Word</h3>
+        <form action='/add' method='POST'>
+            {% csrf_token %}
+            <input type='text' name='word'>
+            <h4>Choose Color</h4>
+            <label><input type='radio' name='color' value='red'>Red</label>
+            <label><input type='radio' name='color' value='green'>Green</label>
+            <label><input type='radio' name='color' value='blue'>Blue</label>
+            <label><input type='checkbox' name='size'>Show in Big Font</label>
+            <input type='submit' value='Add to Session'>
+        </form>
+    </div>
+    <div>
+        <form action='/clear'>
+            {% csrf_token %}
+            <input type='submit' value='Clear Session'>
+        </form>
+        <!-- this section below is what prints and keeps the inputted words on the page -->
+        <!-- Span section is for the font color portion  -->
+        {% for x in request.session.print_words %}
+          <p><span style='color: {{ x.color }}; font-size: {{ x.size }};'>{{ x.word}}</span> - added {{x.time}}<p>
+          <br>
+        {% endfor %}
+    </div>
+
+  </body>
+</html>
